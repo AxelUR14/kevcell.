@@ -167,53 +167,151 @@
             <div class="back-circle" onclick="showView('view-home')"><i class="fas fa-chevron-left"></i></div>
             <h2 style="font-family:'Orbitron'; font-size:16px; letter-spacing:4px;">BOUTIQUE</h2>
         </nav>
-
+    
         <div class="product-list">
+            <!-- AURICULARES -->
             <div class="product-card">
-                <div class="product-img" onclick="openProduct('fundas/funda1.jpeg', 'Fundas Fashion Cases', 'Protección y estilo para tu dispositivo con nuestras fundas de alta calidad.', '$5000')">
-                    <img src="fundas/funda1.jpeg" alt="Producto">
+                <div class="product-img" onclick="openProduct('https://images.unsplash.com/photo-1505740420928-5e560c06d30e?q=80&w=500', 'Auriculares Pro', 'Sonido de alta fidelidad con cancelación de ruido.', '$12.500')">
+                    <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?q=80&w=500" alt="Auriculares">
                     <span class="stock-tag">Stock Disponible</span>
-                    <div class="zoom-icon"><i class="fas fa-expand"></i></div>
+                    <div class="zoom-icon"><i class="fas fa-shopping-cart"></i></div>
                 </div>
                 <div class="product-info">
                     <div class="p-row">
-                        <span class="p-name">Fundas Fashion Cases</span>
-                        <span class="p-price">$5000</span>
+                        <span class="p-name">Auriculares Pro</span>
+                        <span class="p-price">$12.500</span>
+                    </div>
+                </div>
+            </div>
+    
+            <!-- CARGADORES -->
+            <div class="product-card">
+                <div class="product-img" onclick="openProduct('https://images.unsplash.com/photo-1583863788434-e58a36330cf0?q=80&w=500', 'Cargador Carga Rápida', 'Cargador 20W compatible con tecnología Power Delivery.', '$8.900')">
+                    <img src="https://images.unsplash.com/photo-1583863788434-e58a36330cf0?q=80&w=500" alt="Cargadores">
+                    <span class="stock-tag">Stock Disponible</span>
+                    <div class="zoom-icon"><i class="fas fa-shopping-cart"></i></div>
+                </div>
+                <div class="product-info">
+                    <div class="p-row">
+                        <span class="p-name">Cargador 20W</span>
+                        <span class="p-price">$8.900</span>
+                    </div>
+                </div>
+            </div>
+    
+            <!-- VIDRIOS TEMPLADOS -->
+            <div class="product-card">
+                <div class="product-img" onclick="openProduct('https://images.unsplash.com/photo-1616348436168-de43ad0db179?q=80&w=500', 'Vidrio Templado 9D', 'Máxima resistencia contra impactos y rayones.', '$3.500')">
+                    <img src="https://images.unsplash.com/photo-1616348436168-de43ad0db179?q=80&w=500" alt="Vidrios">
+                    <span class="stock-tag">Stock Disponible</span>
+                    <div class="zoom-icon"><i class="fas fa-shopping-cart"></i></div>
+                </div>
+                <div class="product-info">
+                    <div class="p-row">
+                        <span class="p-name">Vidrio Templado</span>
+                        <span class="p-price">$3.500</span>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    <!-- Busca la sección <div id="view-lab"> y reemplázala por esta -->
 
-    <div id="view-lab" class="view hidden">
-        <nav class="section-nav">
-            <div class="back-circle" onclick="showView('view-home')"><i class="fas fa-chevron-left"></i></div>
-            <h2 style="font-family:'Orbitron'; font-size:16px; letter-spacing:4px;">LABORATORIO</h2>
-        </nav>
-        <div style="text-align:center; margin-top:50px;">
-            <i class="fas fa-microchip glow-cyan" style="font-size:60px; margin-bottom:30px;"></i>
-            <h3 style="font-family:'Orbitron'; margin-bottom:15px;">Micro-soldadura Pro</h3>
-            <p style="color:#666; font-size:14px; padding:0 30px;">Reparación de placas base, integrados y fallos complejos bajo microscopio.</p>
-            <div class="main-btn" style="margin-top:50px; border-left-color: var(--neon-green);">
-                <span class="btn-text">Consultar presupuesto</span>
-                <i class="fab fa-whatsapp" style="color:var(--neon-green); font-size:20px;"></i>
-            </div>
+<div id="view-lab" class="view hidden">
+    <nav class="section-nav">
+        <div class="back-circle" onclick="showView('view-home')"><i class="fas fa-chevron-left"></i></div>
+        <h2 style="font-family:'Orbitron'; font-size:16px; letter-spacing:4px;">LABORATORIO</h2>
+    </nav>
+
+    <div style="padding: 10px 0 80px;">
+        <!-- Título Principal -->
+        <div style="text-align:center; margin-bottom:40px;">
+            <i class="fas fa-microchip glow-cyan" style="font-size:40px; margin-bottom:15px;"></i>
+            <h3 style="font-family:'Orbitron';">Servicios de Ingeniería</h3>
         </div>
-    </div>
 
-    <div id="modal-product" class="modal hidden" onclick="closeModal()">
-        <div class="modal-body" onclick="event.stopPropagation()">
-            <img id="modal-img" src="" style="width:100%; height:320px; object-fit:cover;">
-            <div style="padding:25px;">
-                <h3 id="modal-title" style="font-family:'Orbitron'; margin-bottom:10px;"></h3>
-                <p id="modal-desc" style="color:#888; font-size:14px; margin-bottom:25px;"></p>
-                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:30px;">
-                    <span id="modal-price" style="font-size:24px; color:var(--neon-cyan); font-weight:bold;"></span>
+        <!-- Grilla de Servicios -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+            
+            <!-- Cambio de Módulo -->
+            <div class="product-card" style="margin-bottom:0;">
+                <div class="product-img" style="height:150px;">
+                    <img src="https://images.unsplash.com/photo-1597740985671-2a8a3b80502e?q=80&w=500" alt="Módulo">
                 </div>
-                <a href="https://wa.me/+5493525563657" class="btn-wa-order">Consultar Stock</a>
+                <div style="padding:15px; font-size:12px;">
+                    <p style="font-family:'Orbitron'; color:var(--neon-cyan);">Cambio de Módulo</p>
+                </div>
+            </div>
+
+            <!-- Cambio de Pin de Carga -->
+            <div class="product-card" style="margin-bottom:0;">
+                <div class="product-img" style="height:150px;">
+                    <img src="https://images.unsplash.com/photo-1610944230744-29587475104a?q=80&w=500" alt="Pin de Carga">
+                </div>
+                <div style="padding:15px; font-size:12px;">
+                    <p style="font-family:'Orbitron'; color:var(--neon-cyan);">Pin de Carga</p>
+                </div>
+            </div>
+
+            <!-- Reparación de TVs -->
+            <div class="product-card" style="margin-bottom:0;">
+                <div class="product-img" style="height:150px;">
+                    <img src="https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?q=80&w=500" alt="Televisores">
+                </div>
+                <div style="padding:15px; font-size:12px;">
+                    <p style="font-family:'Orbitron'; color:var(--neon-cyan);">Smart TVs</p>
+                </div>
+            </div>
+
+            <!-- Sistemas de Sonido -->
+            <div class="product-card" style="margin-bottom:0;">
+                <div class="product-img" style="height:150px;">
+                    <img src="https://images.unsplash.com/photo-1545454675-3531b543be5d?q=80&w=500" alt="Audio">
+                </div>
+                <div style="padding:15px; font-size:12px;">
+                    <p style="font-family:'Orbitron'; color:var(--neon-cyan);">Sistemas de Audio</p>
+                </div>
+            </div>
+
+            <!-- Micro-soldadura (El que ya tenías) -->
+            <div class="product-card" style="margin-bottom:0; grid-column: span 2;">
+                <div class="product-img" style="height:150px;">
+                    <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=800" alt="Micro soldadura">
+                </div>
+                <div style="padding:15px; font-size:12px;">
+                    <p style="font-family:'Orbitron'; color:var(--neon-green);">Micro-soldadura Pro & Placas Base</p>
+                </div>
             </div>
         </div>
+
+        <!-- Botón de Acción -->
+        <a href="https://wa.me/+5493525563657" class="main-btn" style="margin-top:30px; border-left-color: var(--neon-green); text-decoration:none; color:white;">
+            <span class="btn-text">Presupuesto Online</span>
+            <i class="fab fa-whatsapp" style="color:var(--neon-green); font-size:20px;"></i>
+        </a>
     </div>
+</div>
+
+<div id="modal-product" class="modal hidden" onclick="closeModal()">
+    <div class="modal-body" onclick="event.stopPropagation()">
+        <img id="modal-img" src="" style="width:100%; height:320px; object-fit:cover;">
+        <div style="padding:25px;">
+            <h3 id="modal-title" style="font-family:'Orbitron'; margin-bottom:10px;"></h3>
+            <p id="modal-desc" style="color:#888; font-size:14px; margin-bottom:15px;"></p>
+            
+            <div style="background: rgba(0, 210, 255, 0.05); border: 1px dashed var(--neon-cyan); padding: 15px; border-radius: 10px; margin-bottom: 20px;">
+                <p style="font-size: 11px; color: var(--neon-cyan); text-transform: uppercase; letter-spacing: 1px;">
+                    <i class="fas fa-store" style="margin-right:5px;"></i> Retira en local físico abonando en efectivo.
+                </p>
+            </div>
+
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+                <span id="modal-price" style="font-size:24px; color:var(--neon-cyan); font-weight:bold;"></span>
+            </div>
+            <a id="btn-buy-wa" href="#" target="_blank" class="btn-wa-order">Confirmar Pedido</a>
+        </div>
+    </div>
+</div>   
 
     <aside class="social-dock">
         <a href="https://wa.me/+5493525563657" class="social-link wa"><i class="fab fa-whatsapp"></i></a>
@@ -240,6 +338,35 @@
             document.getElementById('modal-product').classList.add('hidden');
             document.body.style.overflow = 'auto';
         }
+        
+            function showView(viewId) {
+                document.querySelectorAll('.view').forEach(v => v.classList.add('hidden'));
+                document.getElementById(viewId).classList.remove('hidden');
+                window.scrollTo(0,0);
+            }
+        
+            function openProduct(url, title, desc, price) {
+                document.getElementById('modal-img').src = url;
+                document.getElementById('modal-title').innerText = title;
+                document.getElementById('modal-desc').innerText = desc;
+                document.getElementById('modal-price').innerText = price;
+                
+                // Configuración del mensaje de WhatsApp
+                const phoneNumber = "5493525563657";
+                const message = `Hola Kevcell! Me interesa comprar:\n\n*Producto:* ${title}\n*Precio:* ${price}\n\nEntiendo que debo retirar en el local físico y abonar en efectivo. ¿Tienen disponibilidad?`;
+                const waUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+                
+                document.getElementById('btn-buy-wa').href = waUrl;
+                
+                document.getElementById('modal-product').classList.remove('hidden');
+                document.body.style.overflow = 'hidden';
+            }
+        
+            function closeModal() {
+                document.getElementById('modal-product').classList.add('hidden');
+                document.body.style.overflow = 'auto';
+            }
+        
     </script>
 </body>
 </html>
