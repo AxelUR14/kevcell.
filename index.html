@@ -94,12 +94,49 @@
             background: rgba(0,0,0,0.7); color: var(--neon-cyan);
             width: 45px; height: 45px; border-radius: 50%;
             display: flex; align-items: center; justify-content: center;
+            transition: transform 0.3s ease;
         }
 
         .product-info { padding: 25px; }
         .p-row { display: flex; justify-content: space-between; align-items: center; }
         .p-name { font-size: 20px; font-weight: 200; }
         .p-price { color: var(--neon-cyan); font-weight: bold; font-size: 20px; }
+
+        /* ACORDEONES DESPLEGABLES (LABORATORIO) */
+        .modules-accordion {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            margin: 0 15px 15px;
+            overflow: hidden;
+            display: none;
+        }
+        .modules-accordion.active { display: block; }
+        
+        .brand-group { border-bottom: 1px solid rgba(255, 255, 255, 0.05); }
+        .brand-group:last-child { border-bottom: none; }
+        
+        .brand-trigger {
+            padding: 15px; background: #0e0e12;
+            font-family: 'Orbitron', sans-serif; font-size: 13px; color: white;
+            display: flex; justify-content: space-between; align-items: center;
+            cursor: pointer; transition: 0.3s;
+        }
+        .brand-trigger:hover { background: #14141a; color: var(--neon-cyan); }
+        .brand-trigger i { font-size: 12px; transition: 0.3s; color: var(--neon-cyan); }
+        .brand-group.open .brand-trigger i { transform: rotate(90deg); }
+
+        .models-list { display: none; background: #050507; padding: 5px 0; }
+        .brand-group.open .models-list { display: block; }
+
+        .model-item {
+            padding: 12px 25px; font-size: 13px; color: #aaa;
+            display: flex; justify-content: space-between; align-items: center;
+            cursor: pointer; transition: 0.2s;
+        }
+        .model-item:hover { color: white; background: rgba(0, 210, 255, 0.05); }
+        .model-item i { font-size: 14px; color: var(--neon-green); opacity: 0; transition: 0.2s; }
+        .model-item:hover i { opacity: 1; }
 
         /* MODAL DE DETALLE */
         .modal {
@@ -129,14 +166,13 @@
         }
         .wa { color: var(--neon-green); border-color: var(--neon-green); background: rgba(0,255,136,0.05); }
         .ig { color: var(--neon-pink); border-color: var(--neon-pink); background: rgba(225,48,168,0.05); }
+        .location { color: var(--neon-cyan); border-color: var(--neon-cyan); background: rgba(0,210,255,0.05); }
 
         .footer-text {
             background: #050505; padding: 60px 40px; text-align: center;
             margin-top: auto; border-top: 1px solid #111;
         }
         .footer-text p { font-size: 12px; color: #444; line-height: 2.2; font-style: italic; }
-        
-    
     </style>
 </head>
 <body>
@@ -217,122 +253,269 @@
             </div>
         </div>
     </div>
-    <!-- Busca la sección <div id="view-lab"> y reemplázala por esta -->
 
-<div id="view-lab" class="view hidden">
-    <nav class="section-nav">
-        <div class="back-circle" onclick="showView('view-home')"><i class="fas fa-chevron-left"></i></div>
-        <h2 style="font-family:'Orbitron'; font-size:16px; letter-spacing:4px;">LABORATORIO</h2>
-    </nav>
+    <!-- SECCION LABORATORIO -->
+    <div id="view-lab" class="view hidden">
+        <nav class="section-nav">
+            <div class="back-circle" onclick="showView('view-home')"><i class="fas fa-chevron-left"></i></div>
+            <h2 style="font-family:'Orbitron'; font-size:16px; letter-spacing:4px;">LABORATORIO</h2>
+        </nav>
 
-    <div style="padding: 10px 0 80px;">
-        <!-- Título Principal -->
-        <div style="text-align:center; margin-bottom:40px;">
-            <i class="fas fa-microchip glow-cyan" style="font-size:40px; margin-bottom:15px;"></i>
-            <h3 style="font-family:'Orbitron';">Servicios de Ingeniería</h3>
+        <div style="padding: 10px 0 80px;">
+            <!-- Título Principal -->
+            <div style="text-align:center; margin-bottom:40px;">
+                <i class="fas fa-microchip glow-cyan" style="font-size:40px; margin-bottom:15px;"></i>
+                <h3 style="font-family:'Orbitron';">Servicios de Ingeniería</h3>
+            </div>
+
+            <!-- Grilla de Servicios -->
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                
+                <!-- 1. CAMBIO DE MÓDULO -->
+                <div class="product-card" style="margin-bottom:0; grid-column: span 2;">
+                    <div class="product-img" style="height:150px; cursor:pointer;" onclick="toggleMenu('modules-container', 'module-arrow')">
+                        <img src="https://images.unsplash.com/photo-1597740985671-2a8a3b80502e?q=80&w=500" alt="Módulo">
+                        <div class="zoom-icon" style="background:rgba(0, 210, 255, 0.2); border: 1px solid var(--neon-cyan);">
+                            <i class="fas fa-chevron-down" id="module-arrow"></i>
+                        </div>
+                    </div>
+                    <div style="padding:15px; font-size:12px; cursor:pointer;" onclick="toggleMenu('modules-container', 'module-arrow')">
+                        <p style="font-family:'Orbitron'; color:var(--neon-cyan); font-size:14px; display:flex; justify-content:space-between; align-items:center;">
+                            Cambio de Módulo <span style="font-size:10px; color:#666;">Ver modelos</span>
+                        </p>
+                    </div>
+
+                    <!-- Desplegable Módulos -->
+                    <div id="modules-container" class="modules-accordion">
+                        <div class="brand-group">
+                            <div class="brand-trigger" onclick="toggleBrand(this)"><span>Apple iPhone</span> <i class="fas fa-chevron-right"></i></div>
+                            <div class="models-list">
+                                <div class="model-item" onclick="orderService('Cambio de Módulo', 'Apple', 'iPhone 11')">iPhone 11 <i class="fab fa-whatsapp"></i></div>
+                                <div class="model-item" onclick="orderService('Cambio de Módulo', 'Apple', 'iPhone 12 / 12 Pro')">iPhone 12 / 12 Pro <i class="fab fa-whatsapp"></i></div>
+                                <div class="model-item" onclick="orderService('Cambio de Módulo', 'Apple', 'iPhone 13')">iPhone 13 <i class="fab fa-whatsapp"></i></div>
+                                <div class="model-item" onclick="orderService('Cambio de Módulo', 'Apple', 'iPhone 14')">iPhone 14 <i class="fab fa-whatsapp"></i></div>
+                            </div>
+                        </div>
+                        <div class="brand-group">
+                            <div class="brand-trigger" onclick="toggleBrand(this)"><span>Samsung</span> <i class="fas fa-chevron-right"></i></div>
+                            <div class="models-list">
+                                <div class="model-item" onclick="orderService('Cambio de Módulo', 'Samsung', 'Línea Galaxy A')">Galaxy Línea A <i class="fab fa-whatsapp"></i></div>
+                                <div class="model-item" onclick="orderService('Cambio de Módulo', 'Samsung', 'Galaxy S22 / S22 Ultra')">Galaxy S22 / Ultra <i class="fab fa-whatsapp"></i></div>
+                                <div class="model-item" onclick="orderService('Cambio de Módulo', 'Samsung', 'Galaxy S23 / S23 Ultra')">Galaxy S23 / Ultra <i class="fab fa-whatsapp"></i></div>
+                            </div>
+                        </div>
+                        <div class="brand-group">
+                            <div class="brand-trigger" onclick="toggleBrand(this)"><span>Motorola</span> <i class="fas fa-chevron-right"></i></div>
+                            <div class="models-list">
+                                <div class="model-item" onclick="orderService('Cambio de Módulo', 'Motorola', 'Moto G22 / G23 / G24')">Moto G22 / G23 / G24 <i class="fab fa-whatsapp"></i></div>
+                                <div class="model-item" onclick="orderService('Cambio de Módulo', 'Motorola', 'Moto G53 / G54 / G84')">Moto G53 / G54 / G84 <i class="fab fa-whatsapp"></i></div>
+                                <div class="model-item" onclick="orderService('Cambio de Módulo', 'Motorola', 'Moto Edge 30 / 40')">Moto Edge 30 / 40 <i class="fab fa-whatsapp"></i></div>
+                            </div>
+                        </div>
+                        <div class="brand-group">
+                            <div class="brand-trigger" onclick="toggleBrand(this)"><span>Xiaomi</span> <i class="fas fa-chevron-right"></i></div>
+                            <div class="models-list">
+                                <div class="model-item" onclick="orderService('Cambio de Módulo', 'Xiaomi', 'Redmi Note 12 / Pro')">Redmi Note 12 / Pro <i class="fab fa-whatsapp"></i></div>
+                                <div class="model-item" onclick="orderService('Cambio de Módulo', 'Xiaomi', 'Redmi Note 13 / Pro')">Redmi Note 13 / Pro <i class="fab fa-whatsapp"></i></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. PIN DE CARGA -->
+                <div class="product-card" style="margin-bottom:0; grid-column: span 2;">
+                    <div class="product-img" style="height:150px; cursor:pointer;" onclick="toggleMenu('pin-container', 'pin-arrow')">
+                        <img src="https://images.unsplash.com/photo-1610944230744-29587475104a?q=80&w=500" alt="Pin de Carga">
+                        <div class="zoom-icon" style="background:rgba(0, 210, 255, 0.2); border: 1px solid var(--neon-cyan);">
+                            <i class="fas fa-chevron-down" id="pin-arrow"></i>
+                        </div>
+                    </div>
+                    <div style="padding:15px; font-size:12px; cursor:pointer;" onclick="toggleMenu('pin-container', 'pin-arrow')">
+                        <p style="font-family:'Orbitron'; color:var(--neon-cyan); font-size:14px; display:flex; justify-content:space-between; align-items:center;">
+                            Pin de Carga <span style="font-size:10px; color:#666;">Ver modelos</span>
+                        </p>
+                    </div>
+
+                    <!-- Desplegable Pines de Carga -->
+                    <div id="pin-container" class="modules-accordion">
+                        <div class="brand-group">
+                            <div class="brand-trigger" onclick="toggleBrand(this)"><span>Apple iPhone</span> <i class="fas fa-chevron-right"></i></div>
+                            <div class="models-list">
+                                <div class="model-item" onclick="orderService('Reparación de Pin de Carga', 'Apple', 'iPhone 11 (Lightning)')">iPhone 11 <i class="fab fa-whatsapp"></i></div>
+                                <div class="model-item" onclick="orderService('Reparación de Pin de Carga', 'Apple', 'iPhone 12 / Pro (Lightning)')">iPhone 12 / Pro <i class="fab fa-whatsapp"></i></div>
+                                <div class="model-item" onclick="orderService('Reparación de Pin de Carga', 'Apple', 'iPhone 15 / Pro (USB-C)')">iPhone 15 / Pro (USB-C) <i class="fab fa-whatsapp"></i></div>
+                            </div>
+                        </div>
+                        <div class="brand-group">
+                            <div class="brand-trigger" onclick="toggleBrand(this)"><span>Samsung</span> <i class="fas fa-chevron-right"></i></div>
+                            <div class="models-list">
+                                <div class="model-item" onclick="orderService('Reparación de Pin de Carga', 'Samsung', 'Línea Galaxy A (USB-C)')">Galaxy Línea A <i class="fab fa-whatsapp"></i></div>
+                                <div class="model-item" onclick="orderService('Reparación de Pin de Carga', 'Samsung', 'Línea Galaxy S (USB-C)')">Galaxy Línea S <i class="fab fa-whatsapp"></i></div>
+                                <div class="model-item" onclick="orderService('Reparación de Pin de Carga', 'Samsung', 'Modelos V8 (Micro-USB)')">Modelos V8 (Micro-USB) <i class="fab fa-whatsapp"></i></div>
+                            </div>
+                        </div>
+                        <div class="brand-group">
+                            <div class="brand-trigger" onclick="toggleBrand(this)"><span>Motorola / Xiaomi</span> <i class="fas fa-chevron-right"></i></div>
+                            <div class="models-list">
+                                <div class="model-item" onclick="orderService('Reparación de Pin de Carga', 'Motorola', 'Familia Moto G / Edge (USB-C)')">Motorola (USB-C) <i class="fab fa-whatsapp"></i></div>
+                                <div class="model-item" onclick="orderService('Reparación de Pin de Carga', 'Xiaomi', 'Redmi / Poco Series (USB-C)')">Xiaomi / Poco (USB-C) <i class="fab fa-whatsapp"></i></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. SMART TVS -->
+                <div class="product-card" style="margin-bottom:0; grid-column: span 2;">
+                    <div class="product-img" style="height:150px; cursor:pointer;" onclick="toggleMenu('tv-container', 'tv-arrow')">
+                        <img src="https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?q=80&w=500" alt="Televisores">
+                        <div class="zoom-icon" style="background:rgba(0, 210, 255, 0.2); border: 1px solid var(--neon-cyan);">
+                            <i class="fas fa-chevron-down" id="tv-arrow"></i>
+                        </div>
+                    </div>
+                    <div style="padding:15px; font-size:12px; cursor:pointer;" onclick="toggleMenu('tv-container', 'tv-arrow')">
+                        <p style="font-family:'Orbitron'; color:var(--neon-cyan); font-size:14px; display:flex; justify-content:space-between; align-items:center;">
+                            Smart TVs <span style="font-size:10px; color:#666;">Ver marcas</span>
+                        </p>
+                    </div>
+
+                    <!-- Desplegable TVs -->
+                    <div id="tv-container" class="modules-accordion">
+                        <div class="brand-group">
+                            <div class="brand-trigger" onclick="toggleBrand(this)"><span>Marcas Principales</span> <i class="fas fa-chevron-right"></i></div>
+                            <div class="models-list">
+                                <div class="model-item" onclick="orderService('Reparación de Smart TV', 'Samsung', 'Falla de LEDs / Placa')">Samsung Smart TV <i class="fab fa-whatsapp"></i></div>
+                                <div class="model-item" onclick="orderService('Reparación de Smart TV', 'LG', 'Falla de LEDs / Placa')">LG Smart TV <i class="fab fa-whatsapp"></i></div>
+                                <div class="model-item" onclick="orderService('Reparación de Smart TV', 'Philips', 'Falla de LEDs / Placa')">Philips Smart TV <i class="fab fa-whatsapp"></i></div>
+                                <div class="model-item" onclick="orderService('Reparación de Smart TV', 'Sony', 'Falla de LEDs / Placa')">Sony Bravia <i class="fab fa-whatsapp"></i></div>
+                            </div>
+                        </div>
+                        <div class="brand-group">
+                            <div class="brand-trigger" onclick="toggleBrand(this)"><span>Otras Marcas</span> <i class="fas fa-chevron-right"></i></div>
+                            <div class="models-list">
+                                <div class="model-item" onclick="orderService('Reparación de Smart TV', 'TCL', 'Falla de LEDs / Placa')">TCL Smart TV <i class="fab fa-whatsapp"></i></div>
+                                <div class="model-item" onclick="orderService('Reparación de Smart TV', 'Noblex', 'Falla de LEDs / Placa')">Noblex Smart TV <i class="fab fa-whatsapp"></i></div>
+                                <div class="model-item" onclick="orderService('Reparación de Smart TV', 'RCA / BGH', 'Falla de LEDs / Placa')">RCA / BGH Smart TV <i class="fab fa-whatsapp"></i></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 4. SISTEMAS DE AUDIO -->
+                <div class="product-card" style="margin-bottom:0; grid-column: span 2;">
+                    <div class="product-img" style="height:150px; cursor:pointer;" onclick="toggleMenu('audio-container', 'audio-arrow')">
+                        <img src="https://images.unsplash.com/photo-1545454675-3531b543be5d?q=80&w=500" alt="Audio">
+                        <div class="zoom-icon" style="background:rgba(0, 210, 255, 0.2); border: 1px solid var(--neon-cyan);">
+                            <i class="fas fa-chevron-down" id="audio-arrow"></i>
+                        </div>
+                    </div>
+                    <div style="padding:15px; font-size:12px; cursor:pointer;" onclick="toggleMenu('audio-container', 'audio-arrow')">
+                        <p style="font-family:'Orbitron'; color:var(--neon-cyan); font-size:14px; display:flex; justify-content:space-between; align-items:center;">
+                            Sistemas de Audio <span style="font-size:10px; color:#666;">Ver marcas</span>
+                        </p>
+                    </div>
+
+                    <!-- Desplegable Audio -->
+                    <div id="audio-container" class="modules-accordion">
+                        <div class="brand-group">
+                            <div class="brand-trigger" onclick="toggleBrand(this)"><span>Equipos Portátiles / Bluetooth</span> <i class="fas fa-chevron-right"></i></div>
+                            <div class="models-list">
+                                <div class="model-item" onclick="orderService('Reparación de Audio', 'JBL', 'Parlante Portátil / Bluetooth')">JBL (Flip, Charge, Boombox) <i class="fab fa-whatsapp"></i></div>
+                                <div class="model-item" onclick="orderService('Reparación de Audio', 'Sony', 'Sistema de Audio / Parlante')">Sony Audio <i class="fab fa-whatsapp"></i></div>
+                                <div class="model-item" onclick="orderService('Reparación de Audio', 'Bose', 'Sistema de Sonido Premium')">Bose Premium <i class="fab fa-whatsapp"></i></div>
+                            </div>
+                        </div>
+                        <div class="brand-group">
+                            <div class="brand-trigger" onclick="toggleBrand(this)"><span>Torres y Home Theater</span> <i class="fas fa-chevron-right"></i></div>
+                            <div class="models-list">
+                                <div class="model-item" onclick="orderService('Reparación de Audio', 'Samsung / LG', 'Torre de Sonido / Home Theater')">Samsung / LG SoundTowers <i class="fab fa-whatsapp"></i></div>
+                                <div class="model-item" onclick="orderService('Reparación de Audio', 'Winco / Stromberg', 'Parlante Potenciado')">Winco / Stromberg <i class="fab fa-whatsapp"></i></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 5. MICRO-SOLDADURA PRO -->
+                <div class="product-card" style="margin-bottom:0; grid-column: span 2;">
+                    <div class="product-img" style="height:150px; cursor:pointer;" onclick="toggleMenu('micro-container', 'micro-arrow')">
+                        <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=800" alt="Micro soldadura">
+                        <div class="zoom-icon" style="background:rgba(0, 255, 136, 0.2); border: 1px solid var(--neon-green);">
+                            <i class="fas fa-chevron-down" id="micro-arrow" style="color:var(--neon-green);"></i>
+                        </div>
+                    </div>
+                    <div style="padding:15px; font-size:12px; cursor:pointer;" onclick="toggleMenu('micro-container', 'micro-arrow')">
+                        <p style="font-family:'Orbitron'; color:var(--neon-green); font-size:14px; display:flex; justify-content:space-between; align-items:center;">
+                            Micro-soldadura Pro <span style="font-size:10px; color:#666;">Ver especialidades</span>
+                        </p>
+                    </div>
+
+                    <!-- Desplegable Micro-soldadura -->
+                    <div id="micro-container" class="modules-accordion">
+                        <div class="brand-group">
+                            <div class="brand-trigger" onclick="toggleBrand(this)"><span style="color:var(--neon-green);">Reparación de Placa Base</span> <i class="fas fa-chevron-right"></i></div>
+                            <div class="models-list">
+                                <div class="model-item" onclick="orderService('Micro-Soldadura de Alta Precisión', 'Placa Celular / Tablet', 'Cortocircuitos / Líneas principales')">Diagnóstico de Cortos (No prende) <i class="fab fa-whatsapp"></i></div>
+                                <div class="model-item" onclick="orderService('Micro-Soldadura de Alta Precisión', 'IC (Circuito Integrado)', 'Reballing / Reemplazo de integrados de carga o imagen')">Reballing & Cambio de IC <i class="fab fa-whatsapp"></i></div>
+                                <div class="model-item" onclick="orderService('Micro-Soldadura de Alta Precisión', 'Falla de Carga Avanzada', 'IC Tristar / Hydra / FPC dañado')">Fallas de Carga Complejas <i class="fab fa-whatsapp"></i></div>
+                            </div>
+                        </div>
+                        <div class="brand-group">
+                            <div class="brand-trigger" onclick="toggleBrand(this)"><span style="color:var(--neon-green);">Conectores y Reconstrucción</span> <i class="fas fa-chevron-right"></i></div>
+                            <div class="models-list">
+                                <div class="model-item" onclick="orderService('Micro-Soldadura de Alta Precisión', 'Conector FPC', 'Reemplazo de conector de pantalla / batería en placa')">Cambio de Conectores FPC <i class="fab fa-whatsapp"></i></div>
+                                <div class="model-item" onclick="orderService('Micro-Soldadura de Alta Precisión', 'Reconstrucción de Pistas', 'Puentes (Jumper) bajo microscopio en líneas voladas')">Reconstrucción de Pistas Raspadas <i class="fab fa-whatsapp"></i></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Botón de Acción General -->
+            <a href="https://wa.me/5493525563657" class="main-btn" style="margin-top:30px; border-left-color: var(--neon-green); text-decoration:none; color:white;">
+                <span class="btn-text">Presupuesto Online</span>
+                <i class="fab fa-whatsapp" style="color:var(--neon-green); font-size:20px;"></i>
+            </a>
         </div>
+    </div>
 
-        <!-- Grilla de Servicios -->
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
-            
-            <!-- Cambio de Módulo -->
-            <div class="product-card" style="margin-bottom:0;">
-                <div class="product-img" style="height:150px;">
-                    <img src="https://images.unsplash.com/photo-1597740985671-2a8a3b80502e?q=80&w=500" alt="Módulo">
+    <!-- MODAL DE PRODUCTO -->
+    <div id="modal-product" class="modal hidden" onclick="closeModal()">
+        <div class="modal-body" onclick="event.stopPropagation()">
+            <img id="modal-img" src="" style="width:100%; height:320px; object-fit:cover;">
+            <div style="padding:25px;">
+                <h3 id="modal-title" style="font-family:'Orbitron'; margin-bottom:10px;"></h3>
+                <p id="modal-desc" style="color:#888; font-size:14px; margin-bottom:15px;"></p>
+                
+                <div style="background: rgba(0, 210, 255, 0.05); border: 1px dashed var(--neon-cyan); padding: 15px; border-radius: 10px; margin-bottom: 20px;">
+                    <p style="font-size: 11px; color: var(--neon-cyan); text-transform: uppercase; letter-spacing: 1px;">
+                        <i class="fas fa-store" style="margin-right:5px;"></i> Retira en local físico abonando en efectivo.
+                    </p>
                 </div>
-                <div style="padding:15px; font-size:12px;">
-                    <p style="font-family:'Orbitron'; color:var(--neon-cyan);">Cambio de Módulo</p>
-                </div>
-            </div>
 
-            <!-- Cambio de Pin de Carga -->
-            <div class="product-card" style="margin-bottom:0;">
-                <div class="product-img" style="height:150px;">
-                    <img src="https://images.unsplash.com/photo-1610944230744-29587475104a?q=80&w=500" alt="Pin de Carga">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+                    <span id="modal-price" style="font-size:24px; color:var(--neon-cyan); font-weight:bold;"></span>
                 </div>
-                <div style="padding:15px; font-size:12px;">
-                    <p style="font-family:'Orbitron'; color:var(--neon-cyan);">Pin de Carga</p>
-                </div>
-            </div>
-
-            <!-- Reparación de TVs -->
-            <div class="product-card" style="margin-bottom:0;">
-                <div class="product-img" style="height:150px;">
-                    <img src="https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?q=80&w=500" alt="Televisores">
-                </div>
-                <div style="padding:15px; font-size:12px;">
-                    <p style="font-family:'Orbitron'; color:var(--neon-cyan);">Smart TVs</p>
-                </div>
-            </div>
-
-            <!-- Sistemas de Sonido -->
-            <div class="product-card" style="margin-bottom:0;">
-                <div class="product-img" style="height:150px;">
-                    <img src="https://images.unsplash.com/photo-1545454675-3531b543be5d?q=80&w=500" alt="Audio">
-                </div>
-                <div style="padding:15px; font-size:12px;">
-                    <p style="font-family:'Orbitron'; color:var(--neon-cyan);">Sistemas de Audio</p>
-                </div>
-            </div>
-
-            <!-- Micro-soldadura (El que ya tenías) -->
-            <div class="product-card" style="margin-bottom:0; grid-column: span 2;">
-                <div class="product-img" style="height:150px;">
-                    <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=800" alt="Micro soldadura">
-                </div>
-                <div style="padding:15px; font-size:12px;">
-                    <p style="font-family:'Orbitron'; color:var(--neon-green);">Micro-soldadura Pro & Placas Base</p>
-                </div>
+                <a id="btn-buy-wa" href="#" target="_blank" class="btn-wa-order">Confirmar Pedido</a>
             </div>
         </div>
+    </div> 
 
-        <!-- Botón de Acción -->
-        <a href="https://wa.me/+5493525563657" class="main-btn" style="margin-top:30px; border-left-color: var(--neon-green); text-decoration:none; color:white;">
-            <span class="btn-text">Presupuesto Online</span>
-            <i class="fab fa-whatsapp" style="color:var(--neon-green); font-size:20px;"></i>
+    <!-- ASIDE SOCIAL DOCK -->
+    <aside class="social-dock">
+        <a href="https://maps.app.goo.gl/TU_LINK_AQUI" target="_blank" class="social-link location">
+            <i class="fas fa-location-dot"></i>
         </a>
-    </div>
-</div>
-
-<div id="modal-product" class="modal hidden" onclick="closeModal()">
-    <div class="modal-body" onclick="event.stopPropagation()">
-        <img id="modal-img" src="" style="width:100%; height:320px; object-fit:cover;">
-        <div style="padding:25px;">
-            <h3 id="modal-title" style="font-family:'Orbitron'; margin-bottom:10px;"></h3>
-            <p id="modal-desc" style="color:#888; font-size:14px; margin-bottom:15px;"></p>
-            
-            <div style="background: rgba(0, 210, 255, 0.05); border: 1px dashed var(--neon-cyan); padding: 15px; border-radius: 10px; margin-bottom: 20px;">
-                <p style="font-size: 11px; color: var(--neon-cyan); text-transform: uppercase; letter-spacing: 1px;">
-                    <i class="fas fa-store" style="margin-right:5px;"></i> Retira en local físico abonando en efectivo.
-                </p>
-            </div>
-
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
-                <span id="modal-price" style="font-size:24px; color:var(--neon-cyan); font-weight:bold;"></span>
-            </div>
-            <a id="btn-buy-wa" href="#" target="_blank" class="btn-wa-order">Confirmar Pedido</a>
-        </div>
-    </div>
-</div>   
-
-<aside class="social-dock">
-    <!-- Botón de Ubicación (Google Maps) -->
-    <a href="https://maps.app.goo.gl/TU_LINK_AQUI" target="_blank" class="social-link location">
-        <i class="fas fa-location-dot"></i>
-    </a>
-    
-    <!-- Botón de WhatsApp -->
-    <a href="https://wa.me/5493525563657" class="social-link wa">
-        <i class="fab fa-whatsapp"></i>
-    </a>
-    
-    <!-- Botón de Instagram -->
-    <a href="https://instagram.com/kev_cell" class="social-link ig">
-        <i class="fab fa-instagram"></i>
-    </a>
-</aside>
+        <a href="https://wa.me/5493525563657" class="social-link wa">
+            <i class="fab fa-whatsapp"></i>
+        </a>
+        <a href="https://instagram.com/kev_cell" class="social-link ig">
+            <i class="fab fa-instagram"></i>
+        </a>
+    </aside>
 
     <script>
+        const phoneNumber = "5493525563657";
+
         function showView(viewId) {
             document.querySelectorAll('.view').forEach(v => v.classList.add('hidden'));
             document.getElementById(viewId).classList.remove('hidden');
@@ -344,6 +527,11 @@
             document.getElementById('modal-title').innerText = title;
             document.getElementById('modal-desc').innerText = desc;
             document.getElementById('modal-price').innerText = price;
+            
+            const message = `Hola Kevcell! Me interesa comprar:\n\n*Producto:* ${title}\n*Precio:* ${price}\n\nEntiendo que debo retirar en el local físico y abonar en efectivo. ¿Tienen disponibilidad?`;
+            const waUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+            
+            document.getElementById('btn-buy-wa').href = waUrl;
             document.getElementById('modal-product').classList.remove('hidden');
             document.body.style.overflow = 'hidden';
         }
@@ -352,35 +540,39 @@
             document.getElementById('modal-product').classList.add('hidden');
             document.body.style.overflow = 'auto';
         }
-        
-            function showView(viewId) {
-                document.querySelectorAll('.view').forEach(v => v.classList.add('hidden'));
-                document.getElementById(viewId).classList.remove('hidden');
-                window.scrollTo(0,0);
+
+        /* MANEJO DINÁMICO DE MENÚS GENERALES */
+        function toggleMenu(menuId, arrowId) {
+            const currentMenu = document.getElementById(menuId);
+            const currentArrow = document.getElementById(arrowId);
+            const isActive = currentMenu.classList.contains('active');
+            
+            // Cierra todos los menús principales abiertos primero para evitar superposiciones
+            document.querySelectorAll('.modules-accordion').forEach(m => m.classList.remove('active'));
+            document.querySelectorAll('.product-card .zoom-icon i').forEach(i => i.style.transform = "rotate(0deg)");
+
+            if (!isActive) {
+                currentMenu.classList.add('active');
+                currentArrow.style.transform = "rotate(180deg)";
             }
-        
-            function openProduct(url, title, desc, price) {
-                document.getElementById('modal-img').src = url;
-                document.getElementById('modal-title').innerText = title;
-                document.getElementById('modal-desc').innerText = desc;
-                document.getElementById('modal-price').innerText = price;
-                
-                // Configuración del mensaje de WhatsApp
-                const phoneNumber = "5493525563657";
-                const message = `Hola Kevcell! Me interesa comprar:\n\n*Producto:* ${title}\n*Precio:* ${price}\n\nEntiendo que debo retirar en el local físico y abonar en efectivo. ¿Tienen disponibilidad?`;
-                const waUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
-                
-                document.getElementById('btn-buy-wa').href = waUrl;
-                
-                document.getElementById('modal-product').classList.remove('hidden');
-                document.body.style.overflow = 'hidden';
-            }
-        
-            function closeModal() {
-                document.getElementById('modal-product').classList.add('hidden');
-                document.body.style.overflow = 'auto';
-            }
-        
+        }
+
+        function toggleBrand(element) {
+            const parent = element.parentElement;
+            const container = parent.parentElement;
+            
+            // Cierra las otras marcas sub-agrupadas dentro de este mismo menú abierto
+            container.querySelectorAll('.brand-group').forEach(group => {
+                if(group !== parent) group.classList.remove('open');
+            });
+            parent.classList.toggle('open');
+        }
+
+        function orderService(serviceName, brand, model) {
+            const message = `Hola Kevcell! Necesito consultar presupuesto para un servicio técnico de ingeniería:\n\n*Servicio:* ${serviceName}\n*Marca / Sector:* ${brand}\n*Modelo / Detalle:* ${model}\n\n¿Podrían indicarme si realizan este trabajo, tiempo estimado y un presupuesto aproximado?`;
+            const waUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+            window.open(waUrl, '_blank');
+        }
     </script>
 </body>
 </html>
